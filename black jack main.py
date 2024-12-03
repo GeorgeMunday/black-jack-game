@@ -32,81 +32,62 @@ def game(bank):
             print(card1)
             print(card2)
             print(total)
-            
-            if card1 == 11 and card2 == 11:
-                total = 2
-                print(total)
-            elif card1 == 11:
-                number1=int(input("do you want an 11 or a 1"))
-                if number1 == 11:
-                    total = 11 + card2
-                    print(total)
-                else:
-                    total = 1 + card2
-            elif card2 == 11:
-                number2=int(input("do you want an 11 or a 1"))
-                if number2 == 11:
-                    total = 11 + card1
-                    print(total)
-                else:
-                    total = 1 + card1
+            #ace handeling
+            if total > 21:
+                if card1 == 11 or card2 == 11:
+                    total -= 10  # If the total is over 21, treat Ace as 1
+                    print(f"Your total is now: {total}")
             
             else:
-                total = 1 +card1
-            status = input("do you want to hold or hit")
-            break
-        while status == "hit" and status != "hold" and status != "bust":
-            card3 = random.choice(deck)
-            total = card1 + card2 + card3
-            print(card3)
-            print(total)
-            if total > 21:
-                status = "bust"
-                print("you bust\n dealer wins")
-                game(bank)
-                break
-            elif total < 21 :
-                status = input("do you want to hold or hit")
-                if status == "hit":
-                    continue
-                elif status == "hold":
-                    break
-        if dealer_total < total and status != "bust":
-            while dealer_total not in range(17,21):
-                    dealer_card3 = random.choice(deck)
-                    dealer_total =dealer_total + dealer_card3
-                    if dealer_total > 21:
-                        dealer_status = "bust"
+                while total < 21:
+                    status = input("Do you want to 'hold' or 'hit': ").lower()
+                    
+                    if status == "hit":
+                        card3 = random.choice(deck)
+                        total += card3
+                        print(f"You drew a {card3}, total is now {total}")
+                        if total > 21:
+                            print("You bust!")
+                            break
+                    elif status == "hold":
+                        print(f"You hold with a total of {total}")
                         break
                     else:
-                        break
-        if dealer_total > total and dealer_status != "bust":
-            print("dealer wins")
-            
-            exit = input("do you want to exit")
-            if exit == "yes":
-                print("exiting...")
-            else:
-                game(bank)
+                        print("Invalid choice! Please choose 'hold' or 'hit'.")
+    
+        # Dealer's turn
+            if total <= 21:
+                print(f"The dealer's cards: {dealer_card1} and {dealer_card2}, total: {dealer_total}")
+                while dealer_total < 17:
+                    dealer_card3 = random.choice(deck)
+                    dealer_total += dealer_card3
+                    print(f"Dealer drew a {dealer_card3}, dealer's total: {dealer_total}")
                 
-        elif dealer_total < total:
-            win = bet * 2
-            bank = bank + win
-            print(f"you win {win}")
-            exit = input("do you want to exit")
-            if exit == "yes":
-                print("exiting...")
+                if dealer_total > 21:
+                    print("Dealer busts! You win!")
+                    bank += bet * 2  # Player wins
+                elif dealer_total > total:
+                    print("Dealer wins!")
+                elif dealer_total < total:
+                    print(f"You win! Your total of {total} beats the dealer's total of {dealer_total}.")
+                    bank += bet * 2
+                else:
+                    print("It's a tie!")
+            
+            # Ask for continuation
+            exit_game = input("Do you want to play again? (yes/no): ").lower()
+            if exit_game == "no":
+                print("Exiting game...")
+                break
             else:
-                return bank
-        elif dealer_total == total:
-            print("dealer wins")
-            exit = input("do you want to exit")
-            if exit == "yes":
-                print("exiting...")
-            else:
-                game(bank)
+                print(f"You now have £{bank} in your bank.")
+                if bank <= 0:
+                    print("You have no more money left. Exiting...")
+                    break
     else:
-        print("invalid input")
+        print("Invalid input for bet amount.")
+    return bank
+                
         
 
 def main():
