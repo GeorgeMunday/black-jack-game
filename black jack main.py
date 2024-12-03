@@ -15,6 +15,25 @@ def game(bank):
             print(f"you have {bank} in your bank")
             deck = [2,3,4,5,6,7,8,9,10,10,10,10,11] * 4
             
+             
+            dealer_card1 = random.choice(deck)
+            dealer_card2 = random.choice(deck)
+            dealer_total = dealer_card1 + dealer_card2
+            dealer_status = ""
+            print(f"the dealer has {dealer_card1} and another card(use this information in your choice to hold or hit)")
+            while dealer_total not in range(17,21):
+                dealer_card3 = random.choice(deck)
+                
+                break
+                
+                
+            
+            
+            
+            
+            
+            
+            
             card1= random.choice(deck)
             card2 = random.choice(deck)
             total = card1 + card2
