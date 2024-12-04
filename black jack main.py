@@ -86,7 +86,9 @@ def game(bank):
                 print(" Thanks for playing! Exiting the game...")
                 break
             else:
-                print(f"\n You now have £{bank} in your bank.\n")
+                choice1 = input("do you want to chnge your bet (yes/no)?")
+                if choice1 == "yes":
+                    bet = int(input("what do you want to change it to"))
                 if bank <= 0:
                     print(" You have no more money left. Exiting...")
                     break
@@ -114,7 +116,7 @@ def main():
         return
     
     while play:
-        bank = input("\n💰 How much money would you like to put in your bank? £")
+        bank = input("\nHow much money would you like to put in your bank? £")
         if bank.isnumeric():  # Validate bank input
             bank = int(bank)
             print(f"\n You added £{bank} to your bank.")
