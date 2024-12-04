@@ -1,5 +1,9 @@
 import random
-
+def end_game(bank):
+    profit = bank - 100
+    print(f"you earned {profit}")
+    exit()
+    
 def game(bank):
     bet = 0
     card1 = 0
@@ -9,8 +13,7 @@ def game(bank):
     status = ""
     exit_game = ""
     
-    print(f"\n You have £{bank} in your bank ")
-    
+    print(f"\n You have £{bank} left in your bank.\n")
     bet = input("How much would you like to bet? £")
     if bet.isnumeric(): 
         bet = int(bet)
@@ -84,14 +87,26 @@ def game(bank):
             exit_game = input("\n Do you want to play again? (yes/no): ").lower()
             if exit_game == "no":
                 print(" Thanks for playing! Exiting the game...")
+                end_game(bank)
                 break
+            elif exit_game == "yes":
+                while True:
+                    choice1 = input("do you want to chnge your bet (yes/no)?").lower()
+                    if choice1 == "yes":
+                        bet = int(input("what do you want to change it to"))
+                        break
+                    elif choice1 == "no":
+                        bet = bet
+                        break
+                    else:
+                        print("invalid input")
+                           
+                    if bank <= 0:
+                        print(" You have no more money left. Exiting...")
+                        end_game(bank)
+                        break
             else:
-                choice1 = input("do you want to chnge your bet (yes/no)?")
-                if choice1 == "yes":
-                    bet = int(input("what do you want to change it to"))
-                if bank <= 0:
-                    print(" You have no more money left. Exiting...")
-                    break
+                print("\ninvalid input")
     else:
         print("\n Invalid input for bet amount. Please try again.")
     return bank
@@ -109,22 +124,17 @@ def main():
     if play == "yes":
         play = True
     elif play == "no":
-        print("\n You are not of legal age to play this game. Goodbye!")
+        print("\n You are not of legal age to play this game.")
         return
     else:
         print("\nInvalid input. Please restart the game.")
         return
     
     while play:
-        bank = input("\nHow much money would you like to put in your bank? £")
-        if bank.isnumeric():  # Validate bank input
-            bank = int(bank)
-            print(f"\n You added £{bank} to your bank.")
-            print("-" * 40)
-            game(bank)  # Start the game with the bank amount
-            break
-        else:
-            print("\n Please enter a valid number.")
-
+        bank = 100
+        print(f"you have this much in your bank{bank}")
+        game(bank)
+        
+            
 # Run the game
 main()
