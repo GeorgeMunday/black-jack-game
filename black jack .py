@@ -138,7 +138,7 @@ def main():
         bank = 100
         print(f"you have this much in your bank{bank}")
         game(bank)
-        
-            
+       
+          
 # Run the game
 main()
