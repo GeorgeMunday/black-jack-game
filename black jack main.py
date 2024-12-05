@@ -14,8 +14,10 @@ def game(bank):
     exit_game = ""
     
     print(f"\n You have £{bank} left in your bank.\n")
-    bet = input("How much would you like to bet? £")
-    if bet != 0 :
+    bet =input("How much would you like to bet? £")
+    if bet == "0" :
+        end_game(bank)                      
+    else:
         if bet.isnumeric(): 
             bet = int(bet)
             while True:
@@ -106,16 +108,12 @@ def game(bank):
                             break
                         else:
                             print("invalid input")
-                            
-                else:
                     print("\ninvalid input")
         elif bet == 0:
             print("\n Invalid input for bet amount. Please try again.")
         else:
             print("\n Invalid input for bet amount. Please try again.")
         return bank
-    else:
-        end_game()
 
 def main():
     bank = 0
