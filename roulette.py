@@ -2,7 +2,7 @@ import random
 import time
 
 def result_game():
-    return random.randint(0, 36)  # Return a single random number between 0 and 36
+    return random.randint(0, 36)
 
 def play_again(bank):
     if bank == 0:
@@ -20,7 +20,7 @@ def exit_game(bank):
     exit()
 
 def roulette(bank):
-    print(f"\nYou have £{bank} left in your bank.\n")
+    print(f"\nYou have £{bank} in your bank.\n")
     bet = input("How much would you like to bet? £")
     if bet == "0":
         exit_game(bank)
