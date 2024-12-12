@@ -1,148 +1,125 @@
 import random
 import time
+
 def result_game():
-    list1 = [random.randint(0,36)]
-    number = random.choice ( list1)
-    return number
+    return random.randint(0, 36)  # Return a single random number between 0 and 36
+
+def play_again(bank):
+    if bank == 0:
+        exit_game(bank)
+    else:
+        choice3 = input("Do you want to play again (yes/no): ").lower()
+        if choice3 == "yes":
+            roulette(bank)
+        else:
+            exit_game(bank)
 
 def exit_game(bank):
     profit = bank - 100
-    print(f"you profited £{profit}")
+    print(f"You profited £{profit}")
     exit()
-    
 
-
-def roulette (bank):
-    print(f"\n You have £{bank} left in your bank.\n")
-    bet =input("How much would you like to bet? £")
+def roulette(bank):
+    print(f"\nYou have £{bank} left in your bank.\n")
+    bet = input("How much would you like to bet? £")
     if bet == "0":
-        exit_game()                      
+        exit_game(bank)
     else:
-        if bet.isnumeric(): 
+        if bet.isnumeric():
             bet = int(bet)
-            bank = bank - bet
-            choice1 = ""
-            choice2 = ""
+            bank -= bet
+            choice1 = input("What would you like to bet on:\n 1. Colour\n 2. Odd or Even\n 3. Number\n")
             result = result_game()
-            condition = ""
-            status = ""
-            choice1 = input("what would you like to bet on:\n 1. colour,2. odd or even ,3. number\n ")
-            while choice1 == "1":
-                print(f"you have {bank} in your bank ")
-                choice2 = input("would you like to bet on red or black")
-                print("spinning...")
+
+            while choice1 == "1":  # Colour betting
+                print(f"You have £{bank} in your bank.")
+                choice2 = input("Would you like to bet on red or black? ").lower()
+                print("Spinning...")
                 time.sleep(1)
-                print("spinning...")
-                time.sleep(1)
-                print("spinning...")
-                print(f"it landed on {result}")
-                if result % 2 == 0:
+                print(f"It landed on {result}")
+
+                # Color determination based on the number (simplified logic)
+                if result == 0:
+                    condition = "green"
+                elif result % 2 == 0:
                     condition = "red"
-                    print(f"it is {condition}")
-                if result % 2 != 0:
+                else:
                     condition = "black"
-                    print(f"it is {condition}")
+
+                print(f"It is {condition}.")
                 if condition == choice2:
-                    status = "win"
-                    print("you win")
-                    
+                    print("You win!")
+                    bank += bet * 2
                 else:
-                    status = "lose"
-                    print("you lose")
-                    
-                    
-                
-                if status == "win":
-                    bet = bet * 2
-                    bank += bet
-                else:
-                    bank = bank
-                    
-            while choice1 == "2":
-                print(f"you have {bank} in your bank ")
-                choice2 = input("would you like to bet on odd or even")
-                print("spinning...")
+                    print("You lose!")
+
+                play_again(bank)
+                break
+
+            while choice1 == "2":  # Odd or Even betting
+                print(f"You have £{bank} in your bank.")
+                choice2 = input("Would you like to bet on odd or even? ").lower()
+                print("Spinning...")
                 time.sleep(1)
-                print("spinning...")
-                time.sleep(1)
-                print("spinning...")
-                print(f"it landed on {result}")
+                print(f"It landed on {result}")
+
                 if result % 2 == 0:
                     condition = "even"
-                    print(f"it is {condition}")
-                if result % 2 != 0:
+                    print(f"It is {condition}.")
+                else:
                     condition = "odd"
-                    print(f"it is {condition}")
+                    print(f"It is {condition}.")
+
                 if condition == choice2:
-                    status = "win"
-                    print("you win")
+                    print("You win!")
+                    bank += bet * 2
                 else:
-                    status = "win"
-                    print("you lose")
-                
-                if status == "win":
-                    bet = bet * 2
-                    bank += bet
-                else:
-                    bank = bank       
-            while choice1 == "3":
-                print(f"you have {bank} in your bank ")
-                choice2 = input("what number do you want to bet on")
-                int(choice2)
-                print("spinning...")
-                time.sleep(1)
-                print("spinning...")
-                time.sleep(1)
-                print("spinning...")
-                print(f"it landed on {result}")
-                if condition == choice2:
-                    print("you win")
-                    status = "win"
+                    print("You lose!")
+
+                play_again(bank)
+                break
+
+            while choice1 == "3":  # Number betting
+                print(f"You have £{bank} in your bank.")
+                choice2 = input("What number do you want to bet on (0-36)? ")
+                if not choice2.isdigit() or int(choice2) < 0 or int(choice2) > 36:
+                    print("Invalid number.")
+                    roulette(bank)
                     break
+
+                choice2 = int(choice2)
+                print("Spinning...")
+                time.sleep(1)
+                print(f"It landed on {result}")
+
+                if result == choice2:
+                    print("You win!")
+                    bank += bet * 36
                 else:
-                    status = "lose"
-                    print("you lose")
-                    
-                if status == "win":
-                    bet = bet * 36
-                    bank += bet
-                else:
-                    bank = bank
-                    
+                    print("You lose!")
+
+                play_again(bank)
+                break
+
         else:
-            print("invalid input")
+            print("Invalid input.")
             roulette(bank)
-            
-        
 
 def main():
-    bank = 0
-    play = ""
-    
-    
-    print("\n Welcome to roulette! ")
-    print(" Try your luck and win big! ")
+    print("\nWelcome to Roulette!")
+    print("Try your luck and win big!")
     print("-" * 40)
     
     play = input("Are you over the age of 18? (yes/no): ").lower()
     if play == "yes":
-        play = True
+        bank = 100
+        print(f"You have £{bank} to start with.")
+        roulette(bank)
     elif play == "no":
-        print("\n You are not of legal age to play this game.")
+        print("\nYou are not of legal age to play this game.")
         return
     else:
         print("\nInvalid input. Please restart the game.")
         return
-    
-    while play == True :
-        bank = 100
-        print(f"you have this much in your bank{bank}")
-        roulette(bank)
-        break
 
-
-
-
-
-       
 main()
