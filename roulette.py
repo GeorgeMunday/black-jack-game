@@ -84,8 +84,7 @@ def roulette (bank):
                     bet = bet * 2
                     bank += bet
                 else:
-                    bank = bank
-                    
+                    bank = bank       
             while choice1 == "3":
                 print(f"you have {bank} in your bank ")
                 choice2 = input("what number do you want to bet on")
